@@ -6,7 +6,7 @@ This repository is intended to share the code with Nehemia for evaluation purpos
 **Contributors**
 Roque: Responsible for creating the views, URLs, and models within the project. Roque also integrated frontend code developed by team members to ensure seamless functionality and user experience.
 Aina and Satinder: Contributed to the frontend development, crafting the HTML and CSS that define the user interface and styling of the project.
-Cynthia: Created this document. 
+Cynthia: Was responsible for creating all the documentation and testing the website functions. 
 
 **Repository Structure**
 Views: Contains backend logic for handling requests and returning responses. Roque implemented and optimized these for efficient data handling and application flow.
