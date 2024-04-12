@@ -1,0 +1,58 @@
+
+{% block content %}
+
+
+<form id="editBooking">
+ 
+  <div class="card" style="width: 18rem;">
+    <div class="card-boSize">
+      <h5 class="card-title" id="jobName">{% if schedule %} {{schedule.job}} {% endif %}</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      <div>{% include 'get_employee.html' %}</div>
+      <div>{% include 'jobrole.html' %}</div>
+    </ul>
+  </div>
+</form> 
+   
+<script>
+$(document).ready(function() {
+  $('#selected-role, #selected-employee').on('change', 'input', function() {
+        // Show the save changes button
+        $('#saveChangesBtn').show();
+    });
+    
+  $('#saveChangesBtn').on('click', function(event) {
+      event.preventDefault();
+
+      var url = $(this).data('bs-url');
+      var employeeid = $('#id-employee').val();
+      var jobRoleid = $('#id-jobrole').val();
+      
+      
+      $.ajax({
+          type: 'POST',
+          url: url,
+          data: { 
+              'employeeid': employeeid,
+              'jobRoleid': jobRoleid,
+          },
+          headers: {
+              "X-CSRFToken": $("meta[name='csrf-token']").attr("content")
+          },
+          success: function(response) {
+              alert("Booking saved");
+              $('#viewBooking').modal('hide');
+              updateRoaster();
+              
+          },
+          error: function(xhr, status, error) {
+              console.error("Error:", xhr.responseText);
+          }
+      });
+  });
+});
+</script>
+
+
+{% endblock content %}

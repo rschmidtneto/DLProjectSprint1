@@ -1,0 +1,57 @@
+
+{% block content %}
+
+
+<form id="saveNewBooking">
+ 
+  <div class="card" style="width: 18rem;">
+    <div class="card-boSize">
+      <h5 class="card-title" id="jobName">{% if jobId_obj %} {{jobId_obj.po_name}} {% endif %}</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+      <div>{% include 'get_employee.html' %}</div>
+      <div>{% include 'jobrole.html' %}</div>
+    </ul>
+  </div>
+</form> 
+   
+<script>
+$(document).ready(function() {
+  
+
+  $('#submitBooking').on('click', function(event) {
+      event.preventDefault();
+
+      var jobid = "{{jobId_obj.job_id}}";
+      var employeeid = $('#id-employee').val();
+      var jobRoleid = $('#id-jobrole').val();
+      var dateStr = "{{ date_obj|date:'Y-m-d' }}";
+      
+      $.ajax({
+          type: 'POST',
+          url: "{% url 'createBooking' %}",
+          data: { 
+              'jobid': jobid,
+              'employeeid': employeeid,
+              'jobRoleid': jobRoleid,
+              'date': dateStr,
+          },
+          headers: {
+              "X-CSRFToken": $("meta[name='csrf-token']").attr("content")
+          },
+          success: function(response) {
+              alert("Booking saved");
+              $('#viewBooking').modal('hide');
+              updateRoaster();
+              
+          },
+          error: function(xhr, status, error) {
+              console.error("Error:", xhr.responseText);
+          }
+      });
+  });
+});
+</script>
+
+
+{% endblock content %}

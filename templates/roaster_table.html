@@ -1,0 +1,33 @@
+
+<table class="calendar-table">
+    <thead>
+      <tr>
+        <th scope="col">PO Name</th>
+        {% for date in week_dates %}
+        <th scope="col">{{ date|date:"l d/m" }}</th>
+        {% endfor %} 
+      </tr>
+    </thead>
+    <tbody>
+    {% for job, assignments in job_assignments.items %}
+    <tr>
+    <td>{{ job.po_name }}</td>
+    {% for date in week_dates %}
+    <td data-bs-jobName = "{{ job.po_name }}" data-bs-jobid="{{job.job_id}}" data-bs-date="{{date|date:'Y-m-d'}}" data-bs-toggle="modal" data-bs-target="#viewBooking">
+        {% for assignment in assignments %}
+            {% if assignment.date == date %}
+               <a class="person-name" href="#" data-bs-toggle="modal" data-bs-target="#viewBooking"  data-bs-url="{% url 'booking' assignment.job_assignment_id %}">
+                 {{ assignment.employee.name }}
+              </a><br>
+            {% endif %}   
+        {% endfor %}
+        <a class="person-name" href="#" class="add-booking-link" data-bs-toggle="modal" data-bs-target="#viewBooking" data-bs-url="{% url 'addBooking' job.job_id date|date:'Y-m-d' %}">
+        +
+        </a>
+    </td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+
+</table>
+

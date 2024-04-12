@@ -1,0 +1,16 @@
+{% if jobRoles %}
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    {% for jobRole in jobRoles %}
+        <li class="jobRole-result" data-bs-jobroleid-value = "{{ jobRole.job_role_id }}" data-bs-role-value="{{jobRole.role_description}}" 
+        data-bs-rate-value="{{ jobRole.rate }}" data-bs-rate15-value="{{ jobRole.rate_1_5x }}" data-bs-rate2-value="{{ jobRole.rate_2x }}"
+        data-bs-pay-value="{{ jobRole.pay }}" data-bs-pay15-value="{{ jobRole.pay_1_5x }}" data-bs-pay2-value="{{ jobRole.pay_2x }}"
+        {% if jobRole.travel %} data-bs-travel-value="{{ jobRole.travel }}" {% endif %}>
+        <a class="dropdown-item" href="#"><strong>{{jobRole.role_description}}</strong></a>
+        <strong>Rate: </strong>${{ jobRole.rate }}/${{ jobRole.rate_1_5x }}/${{ jobRole.rate_2x }}<br>
+        <strong>Pay: </strong>${{ jobRole.pay }}/${{ jobRole.pay_1_5x }}/${{ jobRole.pay_2x }}<br>
+        {% if jobRole.travel %}<strong>Travel: </strong>${{ jobRole.travel }} {% endif %}
+        <br/>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

@@ -1,0 +1,118 @@
+<div class="dropdown-center">
+  <button class="btn btn-secondary dropdown-toggle" id="dropdown-name" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+    {% if schedule %} {{ schedule.job_role.role_description }} {% else %}  Select a role: {% endif %}
+  </button>
+  {% include 'jobrole_replace.html' %}
+</div>
+
+<div id="selected-role">
+<ul class="list-group list-group-flush">
+    <input type="hidden" id="job_id" value="{% if schedule %}{{schedule.job_id}}{% endif %}"></li>
+    <input type="hidden" id="id-jobrole" value=""></li>
+    <li class="list-group-item">
+    <strong>Rate: </strong><br>
+    <input id="rate-employee" type="text" readonly {% if schedule %} value="{{ schedule.job_role.rate }}" {% endif %}></li>
+    <li class="list-group-item">
+    <strong>Rate 1.5x: </strong><br>
+    <input id="rate15-employee" type="text" readonly {% if schedule %} value="{{ schedule.job_role.rate_1_5x }}" {% endif %}></li>
+    <li class="list-group-item">
+    <strong>Rate 2x: </strong><br>
+    <input id="rate2-employee" type="text" readonly {% if schedule %} value="{{ schedule.job_role.rate_2x }}" {% endif %}></li>
+    <li class="list-group-item">
+    <strong>Pay: </strong><br>
+    <input id="pay-employee" type="text" readonly{% if schedule %} value="{{ schedule.job_role.pay }}" {% endif %}></li>
+    <li class="list-group-item">
+    <strong>Pay 1.5x: </strong><br>
+    <input id="pay15-employee" type="text" readonly {% if schedule %} value="{{ schedule.job_role.pay_1_5x }}" {% endif %}></li>
+    <li class="list-group-item">
+    <strong>Pay 2x: </strong><br>
+    <input id="pay2-employee" type="text" readonly{% if schedule %} value="{{ schedule.job_role.pay_2x }}" {% endif %}></li>
+    <li class="list-group-item">
+    <strong>Travel: </strong><br>
+    <input id="travel-employee" type="text" readonly {% if schedule %} value="{{ schedule.job_role.travel }}" {% endif %}></li>
+    <li class="list-group-item" id="bookingDate">
+    <strong>Date: </strong>{{date_obj| date:"d/m/Y" }}
+      </li>
+    </ul>
+    {% if schedule %} 
+    <div class="card-body">
+      <button type="submit" id="saveChangesBtn" class="btn btn-secondary" data-bs-url="{% url 'editBooking' schedule.job_assignment_id %}" style="display: none;">Save Changes</button>
+      <button type="button" class="btn btn-danger deleteBooking" data-bs-url="{% url 'deleteBooking' schedule.job_assignment_id %}">Delete</button>
+    </div>
+    {% else %}
+    <div >
+      <button type="button" id="submitBooking" class="btn btn-secondary">Save</button>
+    </div>
+    {% endif %}
+</div> 
+
+<script>
+$(document).ready(function() {
+    const job_id = $("#job_id"); // Job ID
+    const date = $('#booking_date'); // Date for booking
+    const roles_div = $('.dropdown-menu'); // UL to be replaced
+    const url = '/getJobRoles/'; // Endpoint URL
+    const delay_by_in_ms = 700; // Delay before the search
+    let scheduled_function = false; // Scheduled function for delayed execution
+
+    
+    
+    function searchJobRole() {
+        $.ajax({
+            url:{% if schedule %} "{% url 'getJobRoles' schedule.job_id %}", {% else %} url + job_id.val(), {% endif %}
+            type: 'GET',
+            data: {
+            },
+            success: function(response) {
+                roles_div.html(response); 
+                $('.jobRole-result').click(function() {
+                  console.log(response)
+                
+                
+                
+    });
+            },
+            error: function() {
+                alert('Please try again.');
+                
+            }
+        });
+    }
+
+    
+    
+    $('.dropdown-menu').on('click', '.jobRole-result', function(event) {
+        event.preventDefault();
+        var role = $(this).data('bs-role-value');
+        $('#role-employee').val(role).change();
+
+        var dropdownName = $(this).data('bs-role-value');
+        $('#dropdown-name').text(dropdownName).change();
+        
+        var pay = $(this).data('bs-pay-value');
+        var pay15 = $(this).data('bs-pay15-value');
+        var pay2 = $(this).data('bs-pay2-value');
+        var rate = $(this).data('bs-rate-value');
+        var rate15 = $(this).data('bs-rate15-value');
+        var rate2 = $(this).data('bs-rate2-value');
+        var travel = $(this).data('bs-travel-value');
+        var jobRoleid = $(this).data('bs-jobroleid-value');
+        
+        
+        
+        $('#rate-employee').val(rate).change();
+        $('#rate15-employee').val(rate15).change();
+        $('#rate2-employee').val(rate2).change();
+        $('#pay-employee').val(pay).change();
+        $('#pay15-employee').val(pay15).change();
+        $('#pay2-employee').val(pay2).change();
+        $('#travel-employee').val(travel).change(); 
+        $('#id-jobrole').val(jobRoleid).change();
+        
+    
+});
+
+
+   
+});
+</script>

@@ -1,0 +1,58 @@
+{% if user.is_authenticated %}
+{% load static %}
+<div class="dashboard">
+        <div class="main-content">
+            <header class="topbar">
+
+                <div class="topbar-nav">
+                    <div class="sidebar-logo">
+                        <img src="{% static 'website/images/logo_white.png' %}" alt="DL AUS GROUP" class="logo-large">
+                    </div>
+                    <nav class="topbar-nav-links">
+                        
+                        <a href="{% url 'roaster' %}" class="nav-item active">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span class="nav-text">Bookings</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fas fa-calendar"></i>
+                            <span class="nav-text">Manage Jobs</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fa-solid fa-person"></i>
+                            <span class="nav-text">Manage Employees</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <span class="nav-text">Add Hours</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <span class="nav-text"> Create Invoices</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i class="fa-solid fa-file-invoice"></i>
+                            <span class="nav-text">Manage Invoices</span>
+                        </a>
+                    </nav>
+                </div>
+                <!--<div class="topbar-actions">
+                    <div class="notification-container">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">0</span>
+                </div> -->
+                    <div class="profile-container">
+                        <!-- temp image -->
+                        <img src="{% static 'website/images/profile.jpg' %}" alt="Profile Image" class="profile-image">
+                        <span class="user-name" onclick="toggleProfileDropdown()">{{ user.first_name }}</span>
+                        <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+                            <a href="{% url 'change_password' %}">Change password</a> 
+                            <a href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+</div>
+{% endif %}
+
+

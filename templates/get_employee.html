@@ -1,0 +1,82 @@
+<div class= "col-6">
+    <i id="search-icon" class="fa fa-search"></i>
+    <input id="user-input" placeholder = " Search employee ">
+</div>
+<div id="replace_employee" class="col-6">
+    {% include 'replace_employee.html' %}
+</div>
+<div id="selected-employee">
+    <input type="hidden" id="id-employee" value="{% if schedule %} {{schedule.employee.employee_id}} {% endif %}">
+    <li class="list-group-item">
+    <strong>Name: </strong><br>
+    <input id="name-employee" type="text" placeholder="{% if schedule %} {{schedule.employee.name}} {% else %} Name {% endif %}" readonly></li>
+    <li class="list-group-item">
+    <strong>Phone: </strong><br>
+    <input id="phone-employee" type="text" placeholder="{% if schedule %} {{schedule.employee.phone}} {% else %} Phone {% endif %}" readonly>
+</div>
+
+
+
+
+
+<script>
+$(document).ready(function() {
+    const user_input = $("#user-input"); // Input element
+    const search_icon = $('#search-icon'); // Search icon element
+    const employee_div = $('#replace_employee'); // Container to replace content
+    const url = '/employees/'; // Endpoint URL
+    const delay_by_in_ms = 700; // Delay before the search
+    let scheduled_function = false; // Scheduled function for delayed execution
+    
+    
+
+    function searchEmployee() {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {
+                'q': user_input.val(), 
+            },
+            success: function(response) {
+                employee_div.html(response); 
+                $('.search-result').click(function() {
+                
+                
+                
+    });
+            },
+            error: function() {
+                alert('Please try again.');
+                
+            }
+        });
+    }
+
+    user_input.on('keyup', function() {
+
+         if (!employee_div.is(':visible')) {
+        employee_div.fadeIn();
+    }
+        if (scheduled_function) clearTimeout(scheduled_function);
+            scheduled_function = setTimeout(searchEmployee, delay_by_in_ms);
+    });
+
+    employee_div.on('click', '.search-result', function(event) {
+        event.preventDefault();
+        var name = $(this).data('bs-name-value');
+        var phone = $(this).data('bs-phone-value');
+        var id = $(this).data('bs-employeeid-value');
+        $('#name-employee').val(name).change();
+        $('#phone-employee').val(phone).change();
+        $('#id-employee').val(id).change();
+        
+        
+        setTimeout(function() {
+            employee_div.fadeOut();
+            }, 1000);
+    });
+
+
+   
+});
+</script>

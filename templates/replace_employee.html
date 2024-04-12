@@ -1,0 +1,8 @@
+{% if employees %}
+    <ul>
+    {% for employee in employees %}
+    <li class="search-result" data-bs-employeeid-value = "{{employee.employee_id }}" data-bs-name-value= "{{employee.name}}" data-bs-phone-value= "{{employee.phone}}"> <a class="icon-link" href="#">{{employee.name}}</a></li>
+    {% endfor %}
+    </ul>
+
+{% endif %}
